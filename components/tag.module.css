@@ -1,0 +1,18 @@
+
+.tag{
+    display: inline-block; /* Ensures the background adjusts only to the text */
+    padding: 5px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px; 
+    color: white; 
+    transition: background-color 0.3s ease;
+}
+
+.active {
+    background-color: #59bd79; 
+}
+
+.inactive {
+  background-color: #dc3545; 
+}
