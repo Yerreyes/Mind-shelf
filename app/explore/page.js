@@ -1,22 +1,23 @@
-import Card from "@/components/module/card.js";
-import image from "@/public/Jaguar-Negro.jpg";
+import CardCategorie from "@/components/categories/card-categorie";
 
+export default function Home() {
+  return (
+    <>
+      <div>
+        <h1>Categorires</h1>
+        <h3> Explore Categories</h3>
+      </div>
 
-const dummyCardData = {
-    image,
-    title: "Sample Title",
-    state: "Active",
-    opinion: "This is a sample opinion.",
-    date: "2023-01-01",
-    recommendationStatus: "Recommended",
-    tag: "Sample Tag",
-  };
-
-export default function Explore() {
-    return (
-        <ul>
-            <li> <Card data={dummyCardData}></Card> </li>
-            <li> <Card data={dummyCardData}></Card> </li>
-        </ul>
-    );
+      <ul>
+        <li>
+          {" ----"}
+          <CardCategorie></CardCategorie>{" "}
+        </li>
+        <li>
+          {" ----"}
+          <CardCategorie></CardCategorie>{" "}
+        </li>
+      </ul>
+    </>
+  );
 }

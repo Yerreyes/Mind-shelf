@@ -1,23 +1,10 @@
 import CardCategorie from "@/components/categories/card-categorie";
+import Form from "@/components/form/form";
 
 export default function Home() {
   return (
     <>
-      <div>
-        <h1>Categorires</h1>
-        <h3> Explore Categories</h3>
-      </div>
-
-      <ul>
-        <li>
-          {" ----"}
-          <CardCategorie></CardCategorie>{" "}
-        </li>
-        <li>
-          {" ----"}
-          <CardCategorie></CardCategorie>{" "}
-        </li>
-      </ul>
+      <Form ></Form>
     </>
   );
 }

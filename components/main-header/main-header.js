@@ -8,8 +8,9 @@ export default function MainHeader() {
       <h1>MindShelf</h1>
       <nav className={styles.nav}> 
         <ul>
-          <NavLink href="/"> Home</NavLink>
           <NavLink href="/explore"> Explore</NavLink>
+          <NavLink href="/module"> Module </NavLink>
+          <NavLink href="/"> Create</NavLink>
         </ul>
       </nav>
     </header>
