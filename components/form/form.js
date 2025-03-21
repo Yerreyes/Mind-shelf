@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { formFieldsByCategory } from "./form-configuration";
 import FormInput from "./form-input";
 import { useState } from "react";
-import { saveFormData } from "@/lin/actions";
+import { saveModule as saveFormData } from "@/actions/modules";
 
 export default function Form({ category }) {
   const [categorySelected, setCategorySelected] = useState(category || "");
@@ -31,9 +31,17 @@ export default function Form({ category }) {
 
   return (
     <div>
-      {!category ? desplegable : <h1>Create new {category}</h1>}
+      {!category ? desplegable : <h1>Crear un nuevo {category}</h1>}
 
       <form action={saveFormData}>
+        <input
+          id="category"
+          type="text"
+          name="category"
+          defaultValue={category ? category : categorySelected}
+          hidden
+        ></input>
+
         {arrayInputs?.map((item) => (
           <FormInput key={item.name} category {...item}></FormInput>
         ))}
