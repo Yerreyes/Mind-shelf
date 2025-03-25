@@ -1,7 +1,7 @@
 import styles from "./card.module.css";
 import Image
  from "next/image";
-import Tag from "./tag";
+import Tag from "../tag";
 export default function Card({ data }) {
   const { image, title, state, opinion, date, recommendationStatus} =
     data;

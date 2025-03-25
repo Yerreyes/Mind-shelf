@@ -1,21 +1,10 @@
-
-import Card from "@/components/card";
-import image from "@/public/Jaguar-Negro.jpg";
-
-const dummyCardData = {
-  image,
-  title: "Sample Title",
-  state: "Active",
-  opinion: "This is a sample opinion.",
-  date: "2023-01-01",
-  recommendationStatus: "Recommended",
-  tag: "Sample Tag"
-};
+import CardCategorie from "@/components/categories/card-categorie";
+import Form from "@/components/form/form";
 
 export default function Home() {
   return (
     <>
-    <Card data = {dummyCardData}> </Card>
+      <Form ></Form>
     </>
   );
 }

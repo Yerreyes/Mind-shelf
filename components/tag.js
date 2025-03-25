@@ -14,5 +14,5 @@ export default function Tag({state}) {
     }
   };
   
-  return (<di> <p className={`${styles.tag} ${getClass()}`}> {state}</p> </di>);
+  return (<div> <p className={`${styles.tag} ${getClass()}`}> {state}</p> </div>);
 }

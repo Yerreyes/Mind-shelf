@@ -1,0 +1,17 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 1rem;
+    background-color: black;
+    color: white;
+}
+
+.nav li {
+    display: inline;
+    margin-right: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: black;
+    cursor: pointer;
+}
