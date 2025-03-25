@@ -4,7 +4,17 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 // This function does not receive the previous state (...prevState) because it is not utilizing the useFormState hook, which is typically used for managing form state in React.
 
-function helperTransformData(formData) {
+async function helperTransformData(formData) {
+  console.log(formData);
+  const image = formData.get("image");
+  
+  
+  if (image) {
+    const buffer = await image.arrayBuffer();
+    const base64Image = Buffer.from(buffer).toString("base64");
+    formData.set("image", base64Image);
+  }
+
   const transformed = {
     category: formData.get("category"),
     title: formData.get("title"),
@@ -19,21 +29,24 @@ function helperTransformData(formData) {
       transformed.fields[key] = value;
     }
   }
-
   return transformed;
 }
 
-export async function saveModule(formData) {
-  const data = helperTransformData(formData);
+export async function saveDataAction(_, formData) {
+    try{
+    const data = await helperTransformData(formData);
+    await prisma.module.create({
+      data: data,
+    });
 
-  await prisma.module.create({
-    data: data,
-  });
-  
-  console.log(await getModules());
-  return {};
+    console.log(await getModules());
+    return {success: true, message: "Se añadió correctamente"};
+  }catch (error) {
+    return {success: false, message: "Ocurrió un error"};
+  }
+ 
 }
 
 export async function getModules() {
-    return await prisma.module.findMany();
+  return await prisma.module.findMany();
 }

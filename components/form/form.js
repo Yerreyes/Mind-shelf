@@ -1,22 +1,66 @@
 "use client";
-import { usePathname } from "next/navigation";
+
 import { formFieldsByCategory } from "./form-configuration";
 import FormInput from "./form-input";
-import { useState } from "react";
-import { saveModule as saveFormData } from "@/actions/modules";
+import { useState, useEffect } from "react";
+import { saveDataAction as saveFormData } from "@/actions/modules";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useActionState  } from "react";
+import { useFormStatus } from "react-dom";
 
-export default function Form({ category }) {
+import * as yup from "yup";
+
+export default function Form() {
+  const params = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [formState, formAction] = useActionState(saveFormData, { success: false });
+  const { pending } = useFormStatus();
+  const category = params.get("category"); // Obtiene el parámetro `category`
+
   const [categorySelected, setCategorySelected] = useState(category || "");
+  const [isValidCategory, setIsValidCategory] = useState(null); // `null` indica que aún no se ha validado
 
-  function handleCategoryChange(event) {
+  // Función para validar la categoría
+  const validateCategory = (category) => !!formFieldsByCategory[category];
+
+  useEffect(() => {
+    if (category) {
+      const isValid = validateCategory(category);
+      setCategorySelected(category);
+      setIsValidCategory(isValid);
+
+      if (!isValid) {
+        // Limpia la URL eliminando el parámetro `category`
+        router.replace(pathname);
+      }
+    } else {
+      setCategorySelected("");
+      setIsValidCategory(null); // No hay categoría seleccionada
+    }
+  }, [category, router]);
+
+  // Maneja el cambio de categoría desde el desplegable
+  const handleCategoryChange = (event) => {
     const value = event.target.value;
-    setCategorySelected(value);
-  }
+    if (value === "") {
+      // Si el usuario selecciona la opción vacía, restablece el estado
+      setCategorySelected("");
+      setIsValidCategory(null); // No hay categoría seleccionada
+    } else {
+      // Si selecciona una categoría válida, actualiza el estado
+      setCategorySelected(value);
+      setIsValidCategory(validateCategory(value));
+    }
+  };
 
+  // Obtiene los campos del formulario según la categoría seleccionada
   const arrayInputs = categorySelected
     ? formFieldsByCategory[categorySelected]
     : [];
 
+  // Renderiza el desplegable
   const desplegable = (
     <>
       <label>Seleccione la categoría:</label>
@@ -29,24 +73,42 @@ export default function Form({ category }) {
     </>
   );
 
+  // Renderizado condicional
+  if (isValidCategory === null && category != null) {
+    // Muestra un indicador de carga mientras se valida la categoría
+    return <p>Validando categoría...</p>;
+  }
+
   return (
     <div>
-      {!category ? desplegable : <h1>Crear un nuevo {category}</h1>}
+      {!categorySelected ? (
+        desplegable
+      ) : !isValidCategory ? (
+        <>
+          <h1>Error: Categoría inválida</h1>
+          <p>Por favor, seleccione una categoría válida.</p>
+          {desplegable}
+        </>
+      ) : (
+        <>
+          <h1>Crear un nuevo {categorySelected}</h1>
+          <form action={formAction}>
+            <input
+              id="category"
+              type="text"
+              name="category"
+              defaultValue={categorySelected}
+              hidden
+            ></input>
 
-      <form action={saveFormData}>
-        <input
-          id="category"
-          type="text"
-          name="category"
-          defaultValue={category ? category : categorySelected}
-          hidden
-        ></input>
-
-        {arrayInputs?.map((item) => (
-          <FormInput key={item.name} category {...item}></FormInput>
-        ))}
-        {categorySelected && <button>Submit</button>}
-      </form>
+            {arrayInputs.map((item) => (
+              <FormInput key={item.name} {...item} />
+            ))}
+            <button> {pending ? "Enviando..." : "Enviar" }</button>
+            {formState?.message && <p>{formState.message}</p>} 
+          </form>
+        </>
+      )}
     </div>
   );
 }

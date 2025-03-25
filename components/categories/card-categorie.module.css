@@ -12,3 +12,9 @@
     transition: all 0.3s;
     color: black;
 }
+
+.box {
+    background-color: rgb(136, 212, 237);
+    width: 2rem;
+    padding: 5px;
+}

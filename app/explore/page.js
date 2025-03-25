@@ -11,7 +11,7 @@ export default function Home() {
       <ul>
         <li>
           {" ----"}
-          <CardCategorie></CardCategorie>{" "}
+          <CardCategorie categorie={"Libro"}></CardCategorie>{" "}
         </li>
         <li>
           {" ----"}
