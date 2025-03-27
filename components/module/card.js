@@ -1,22 +1,30 @@
 import styles from "./card.module.css";
-import Image
- from "next/image";
+import Image from "next/image";
 import Tag from "../tag";
-export default function Card({ data }) {
-  const { image, title, state, opinion, date, recommendationStatus} =
-    data;
+import { formFieldsByCategory } from "@/components/form/form-configuration.js";
+
+export default function Card({ title, category, fields }) {
+  const fieldsByCategory = formFieldsByCategory[category];
+
   return (
     <div className={styles.card}>
-
       <div className={styles.image}>
-        <Image src={image} alt="module image" width={300} height={300} priority/>
+        <img
+          src={`data:image/png;base64,${fields?.image ? fields.image : null}`}
+          alt="Imagen en Base64"
+        />
       </div>
       <div className={styles.content}>
         <h1>{title}</h1>
-        <Tag state={state}></Tag>
-        <p id={styles.date}>{date}</p>
-        <p>{opinion}</p>
-        <p>{recommendationStatus}</p>
+        {fieldsByCategory
+          .filter((item) => item.name !== "image" && item.name !== "title")
+          .map((item) => (
+            <div key={item.name}>
+              <p>
+                {item.label}: {fields[item.name]}
+              </p>
+            </div>
+          ))}
       </div>
     </div>
   );

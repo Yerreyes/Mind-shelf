@@ -7,8 +7,7 @@ const prisma = new PrismaClient();
 async function helperTransformData(formData) {
   console.log(formData);
   const image = formData.get("image");
-  
-  
+
   if (image) {
     const buffer = await image.arrayBuffer();
     const base64Image = Buffer.from(buffer).toString("base64");
@@ -33,20 +32,31 @@ async function helperTransformData(formData) {
 }
 
 export async function saveDataAction(_, formData) {
-    try{
+  try {
     const data = await helperTransformData(formData);
     await prisma.module.create({
       data: data,
     });
 
     console.log(await getModules());
-    return {success: true, message: "Se añadió correctamente"};
-  }catch (error) {
-    return {success: false, message: "Ocurrió un error"};
+    return { success: true, message: "Se añadió correctamente" };
+  } catch (error) {
+    return { success: false, message: "Ocurrió un error" };
   }
- 
 }
 
 export async function getModules() {
-  return await prisma.module.findMany();
+  try {
+    return await prisma.module.findMany();
+  } catch (error) {
+    console.error("Error fetching modules:", error);
+    throw new Error("Failed to fetch modules. Please try again later.");
+  }
+}
+
+export async function getModulesByCategory(category) {
+  const modules = await prisma.module.findMany({
+    where: { category: category },
+  });
+  return modules;
 }

@@ -8,8 +8,6 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { useActionState  } from "react";
 import { useFormStatus } from "react-dom";
 
-import * as yup from "yup";
-
 export default function Form() {
   const params = useSearchParams();
   const router = useRouter();
