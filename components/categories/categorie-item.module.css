@@ -13,8 +13,12 @@
     color: black;
 }
 
-.box {
-    background-color: rgb(136, 212, 237);
-    width: 2rem;
-    padding: 5px;
+.image {
+    object-fit: contain;
+}
+
+.imageContainer{
+    display: flex;
+    flex-direction: column;
+    width: 30%;
 }
