@@ -4,7 +4,7 @@ import Tag from "../tag";
 import { formFieldsByCategory } from "@/components/form/form-configuration.js";
 import Link from "next/link";
 
-export default function Card({ title, category, fields }) {
+export default function Card({ id, title, category, fields }) {
   const fieldsByCategory = formFieldsByCategory[category];
 
   return (
@@ -17,7 +17,7 @@ export default function Card({ title, category, fields }) {
       </div>
       <div className={styles.content}>
         <h1>{title}</h1>
-        <Link href={"/"}>Modificar</Link>
+        <Link href={`/module/${id}`}>Modificar</Link>
         {fieldsByCategory
           .filter((item) => item.name !== "image" && item.name !== "title")
           .map((item) => (

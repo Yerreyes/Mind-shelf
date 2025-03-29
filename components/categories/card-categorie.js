@@ -8,7 +8,7 @@ export default function CardCategorie({ categorie, data}) {
   return (
     <div className={styles.container}>
       <div className={styles.box}>
-        <Link href={`/?category=${categorie}`}>+</Link>
+        <Link href={`module/create/?category=${categorie}`}>+</Link>
       </div>
       <h1>{categorie}</h1>
       <ul>

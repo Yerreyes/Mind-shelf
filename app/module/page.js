@@ -9,6 +9,7 @@ export default async function Explore() {
       {modules.map((module) => (
         <Card 
           key={module.id} 
+          id = {module.id}
           title={module.title} 
           category={module.category} 
           fields={{ ...module.fields }} 

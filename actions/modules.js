@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 // This function does not receive the previous state (...prevState) because it is not utilizing the useFormState hook, which is typically used for managing form state in React.
 
 async function helperTransformData(formData) {
-  console.log(formData);
   const image = formData.get("image");
 
   if (image) {
@@ -59,4 +58,12 @@ export async function getModulesByCategory(category) {
     where: { category: category },
   });
   return modules;
+}
+
+export async function getModule(id){
+  const module = await prisma.module.findFirst({
+    where: { id: id },
+  });
+  console.log(module);
+  return module;
 }
