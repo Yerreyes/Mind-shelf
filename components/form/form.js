@@ -1,17 +1,19 @@
 "use client";
 
-
 import FormInput from "./form-input";
 import { useState, useEffect } from "react";
-import { saveDataAction as saveFormData } from "@/actions/modules";
-import { useActionState  } from "react";
-import { useFormStatus } from "react-dom";
+import { saveDataAction as saveFormData, editModule } from "@/actions/modules";
+import { useActionState } from "react";
 import { formFieldsByCategory } from "@/components/form/form-configuration.js";
+import { startTransition } from "react";
+import SubmitButton from "../buttons/button-submit";
 
-export default function Form({category, module}) {
+export default function Form({ category, module }) {
+  const [formState, formAction] = useActionState(
+    module ? editModule : saveFormData,
+    { success: false }
+  );
 
-  const [formState, formAction] = useActionState(saveFormData, { success: false });
-  const { pending } = useFormStatus();
   const [categorySelected, setCategorySelected] = useState(category || "");
 
   // Maneja el cambio de categoría desde el desplegable
@@ -28,6 +30,19 @@ export default function Form({category, module}) {
   const arrayInputs = categorySelected
     ? formFieldsByCategory[categorySelected]
     : [];
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    startTransition(() => {
+      if (module) {
+        formAction({ formData, id: module.id }); // Pasar el ID directamente
+      } else {
+        formAction(formData);
+      }
+    });
+  }
 
   // Renderiza el desplegable
   const desplegable = (
@@ -46,10 +61,10 @@ export default function Form({category, module}) {
     <div>
       {!categorySelected ? (
         desplegable
-      ) :  (
+      ) : (
         <>
-          <h1>Crear un nuevo {categorySelected}</h1>
-          <form action={formAction}>
+          <h1> {module ? " Editar" : `Crear un nuevo ${categorySelected}`} </h1>
+          <form onSubmit={handleSubmit}>
             <input
               id="category"
               type="text"
@@ -59,10 +74,11 @@ export default function Form({category, module}) {
             ></input>
 
             {arrayInputs.map((item) => (
-              <FormInput key={item.name} module = {module} {...item} />
+              <FormInput key={item.name} module={module} {...item} />
             ))}
-            <button> {pending ? "Enviando..." : "Enviar" }</button>
-            {formState?.message && <p>{formState.message}</p>} 
+
+            <SubmitButton isEditing={module ? true : false} />
+            {formState?.message && <p>{formState.message}</p>}
           </form>
         </>
       )}

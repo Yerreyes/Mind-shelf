@@ -33,7 +33,6 @@ export default function ImageInput({ name, label, module }) {
       )}
       <input
         id={name}
-        name={name}
         type="file"
         accept="image/*"
         onChange={handleImageChange}

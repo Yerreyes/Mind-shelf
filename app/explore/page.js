@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const [itemsModules, setItemsModules] = useState({});
+  
   useEffect(() => {
     const fetchData = async () => {
       const res = await fetch("/api/modules", {
@@ -12,7 +13,6 @@ export default function Home() {
       });
 
       const data = await res.json();
-      console.log(data);
       setItemsModules(data);
     };
 
