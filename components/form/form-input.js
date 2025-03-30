@@ -1,10 +1,11 @@
-
-import { useState } from "react";
 import styles from "./form-input.module.css";
 import ImageInput from "./image-input";
 
-export default function FormInput({ category, module, ...props }) {
+export default function FormInput({ category, module, title, ...props }) {
   const properties = { ...props };
+
+  const onChange = properties.isTitle;
+  
 
   if (properties.type === "file" && properties.name === "image") {
     // Delegar el manejo del input de tipo "image" al componente ImageInput
@@ -13,6 +14,7 @@ export default function FormInput({ category, module, ...props }) {
         name={properties.name}
         label={properties.label}
         module={module}
+        title = {title}
       />
     );
   }
@@ -29,6 +31,7 @@ export default function FormInput({ category, module, ...props }) {
           defaultValue={
             module?.[properties.name] || module?.fields?.[properties.name] || ""
           }
+          onChange={onChange}
         />
       </p>
     </div>

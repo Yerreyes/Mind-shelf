@@ -1,12 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./form-input.module.css";
 
-export default function ImageInput({ name, label, module }) {
+export default function ImageInput({ name, label, module, title}) {
+  
   const [imagePreview, setImagePreview] = useState(
     module?.fields?.[name] || ""
   );
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      try {
+        const response = await fetch(`/api/generate-image?title=${encodeURIComponent(title)}`);
+        if (!response.ok) {
+          throw new Error("Failed to fetch image");
+        }
+        const data = await response.json();
+        setImagePreview(data);
+      } catch (error) {
+        console.error("Error fetching image:", error);
+      }
+    };
+    
+    if (title) {
+      fetchImage();
+    }
+  }, [title]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -24,9 +44,15 @@ export default function ImageInput({ name, label, module }) {
   return (
     <div className={styles.row}>
       <label htmlFor={name}>{label}</label>
-      {imagePreview && (
+      {imagePreview ? (
         <img
           src={`data:image/png;base64,${imagePreview}`}
+          alt="Preview"
+          width="150"
+        />
+      ) : (
+        <img
+          src={`/api/generate-image?title=${encodeURIComponent(title)}`}
           alt="Preview"
           width="150"
         />

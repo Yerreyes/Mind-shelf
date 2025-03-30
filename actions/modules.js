@@ -11,6 +11,7 @@ import prisma from "@/lib/prisma.js";
 function helperTransformData(formData) {
   const transformed = {
     category: formData.get("category"),
+    title: formData.get("title"),
     // Skip storing auto-generated IDs from Next.js forms
     fields: {},
   };
@@ -27,14 +28,16 @@ function helperTransformData(formData) {
 }
 
 export async function saveDataAction(prev, formData) {
+  console.log(formData);
   try {
     const data = await helperTransformData(formData);
+    console.log(data);
     await prisma.module.create({
       data: data,
     });
     return { success: true, message: "Se añadió correctamente" };
   } catch (error) {
-    return { success: false, message: "Ocurrió un error" };
+    return { success: false, message: "Ocurrió un error" + error};
   }
 }
 
@@ -78,7 +81,7 @@ export async function getModule(id) {
 export async function deleteModule(id) {
   try {
     const deletedItem = await prisma.module.delete({
-      where: { idd },
+      where: { id },
     });
     console.log(deletedItem);
     if (!deletedItem) {
@@ -89,7 +92,7 @@ export async function deleteModule(id) {
     }
     return { success: true, message: "Se elimino con éxito" };
   } catch (error) {
-    return handleError(error, "Ocurrió un error al eliminar el módulo");
+    return handleError(error, "Ocurrió un error al eliminar el módulo" + error);
   }
 }
 
@@ -115,5 +118,5 @@ export async function editModule(_, { formData, id }) {
 }
 
 function handleError(error, defaultMessage) {
-  return { success: false, message: defaultMessage || "Ocurrió un error" };
+  return { success: false, message: defaultMessage || "Ocurcrió un error" + error };
 }

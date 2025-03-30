@@ -1,7 +1,7 @@
 "use client";
 
 import FormInput from "./form-input";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { saveDataAction as saveFormData, editModule } from "@/actions/modules";
 import { useActionState } from "react";
 import { formFieldsByCategory } from "@/components/form/form-configuration.js";
@@ -15,6 +15,12 @@ export default function Form({ category, module }) {
   );
 
   const [categorySelected, setCategorySelected] = useState(category || "");
+
+  const [title, setTitle] = useState(module?.title || "");
+
+  function handleTitleChange(event){
+    setTitle(event.target.value);
+  }
 
   // Maneja el cambio de categoría desde el desplegable
   const handleCategoryChange = (event) => {
@@ -73,9 +79,13 @@ export default function Form({ category, module }) {
               hidden
             ></input>
 
-            {arrayInputs.map((item) => (
-              <FormInput key={item.name} module={module} {...item} />
-            ))}
+            {arrayInputs.map((item) =>
+              item.name == "title" ? (
+                <FormInput key={item.name} module={module} {...item} isTitle = {handleTitleChange} />
+              ) : (
+                <FormInput key={item.name} module={module} title = {title} {...item}  />
+              )
+            )}
 
             <SubmitButton isEditing={module ? true : false} />
             {formState?.message && <p>{formState.message}</p>}
