@@ -6,7 +6,7 @@ import { saveDataAction as saveFormData, editModule } from "@/actions/modules";
 import { useActionState } from "react";
 import { formFieldsByCategory } from "@/components/form/form-configuration.js";
 import { startTransition } from "react";
-import SubmitButton from "../buttons/button-submit";
+import SubmitButton from "../buttons/button-submit.jsx";
 
 export default function Form({ category, module }) {
   const [formState, formAction] = useActionState(
