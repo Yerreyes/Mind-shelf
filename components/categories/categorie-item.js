@@ -3,7 +3,7 @@ import styles from "./categorie-item.module.css";
 export default function CategorieItem({ item }) {
   //I receive a object
   return (
-    <li className={styles.container}>
+    <div className={styles.container}>
       <h1>{item.title}</h1>
       <div className={styles.imageContainer}>
         <img
@@ -14,6 +14,6 @@ export default function CategorieItem({ item }) {
           alt="Module image"
         />
       </div>
-    </li>
+    </div>
   );
 }

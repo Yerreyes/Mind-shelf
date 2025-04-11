@@ -13,6 +13,7 @@
 html,
 body {
   margin-top: 50px;
+  margin-bottom: 20px;
   max-width: 100vw;
   overflow-x: hidden;
 }
@@ -40,4 +41,35 @@ a {
   html {
     color-scheme: dark;
   }
+}
+
+
+/* Forzar que los slides sean visibles */
+.swiper-slide {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  height: auto !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Ajustar el tamaño del Swiper */
+.swiper {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Ajustar la paginación si se ve mal */
+.swiper-pagination {
+  bottom: 10px !important;
+}
+
+.swiper-button-prev {
+  left: 10px;
+}
+
+.swiper-button-next {
+  right: 10px;
 }

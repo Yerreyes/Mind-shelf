@@ -8,7 +8,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
     color: black;
-    width: 50%;
+    width: 100%;
+    height: 400px;
     box-sizing: border-box;
 }
 
@@ -35,6 +36,7 @@
 
 .itemsContainer{
     display: flex;
+    width: 100%;
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
