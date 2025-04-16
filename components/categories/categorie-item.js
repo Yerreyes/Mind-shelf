@@ -1,7 +1,19 @@
-export default function CategorieItem({item}) {
-    return (
-        <div>
-        <h1>{item.title}</h1>
-        </div>
-    );
-};
+import styles from "./categorie-item.module.css";
+
+export default function CategorieItem({ item }) {
+  //I receive a object
+  return (
+    <div className={styles.container}>
+      <h1>{item.title}</h1>
+      <div className={styles.imageContainer}>
+        <img
+          className={styles.image}
+          src={`data:image/png;base64,${
+            item?.fields.image ? item.fields.image : null
+          }`}
+          alt="Module image"
+        />
+      </div>
+    </div>
+  );
+}

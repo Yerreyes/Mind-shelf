@@ -1,28 +1,19 @@
-import CategorieItem from "./categorie-item";
 import styles from "./card-categorie.module.css";
+import Link from "next/link";
+import Carousel from "../swiper/carousel";
 
 //Contains the card of each category, and inside the items of the category
-export default function CardCategorie({ categorie }) {
-
-const dummyCategorie = {
-    name: "Sample Category",
-    description: "This is a sample category description.",
-    items: [
-        { id: 1, title: "Item 1" },
-        { id: 2, title: "Item 2" },
-        { id: 3, title: "Item 3" },
-    ],
-};
-
-return (
+export default function CardCategorie({ categorie, data }) {
+  return (
     <div className={styles.container}>
-        <h1>{dummyCategorie.name}</h1>
-        <p>{dummyCategorie.description}</p>
-        <ul>
-            {dummyCategorie.items.map((item) => (
-                <CategorieItem key={item.id} item={item} />
-            ))}
-        </ul>
+      <div className={styles.row}>
+        <h1>{categorie}</h1>
+        <Link href={`module/create/?category=${categorie}`}>Add</Link>
+      </div>
+        <Carousel data={data} />
+      <div>
+        <Link href={`module`}>Explorar más</Link>
+      </div>
     </div>
-);
+  );
 }

@@ -11,9 +11,10 @@
 
 .image img {
   width: 300px;
-  height: auto;
-  object-fit: cover;
+  height: 300px;
+  object-fit: contain;
   border-radius: 0.5rem;
+  background-color: aqua;
 }
 
 .card .content {
@@ -22,7 +23,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: start;
+  justify-content: flex-start;
   font-size: 1.5rem;
   font-weight: 500;
   color: black;
