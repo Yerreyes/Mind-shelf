@@ -1,4 +1,3 @@
-import CategorieItem from "./categorie-item";
 import styles from "./card-categorie.module.css";
 import Link from "next/link";
 import Carousel from "../swiper/carousel";

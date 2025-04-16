@@ -1,0 +1,34 @@
+.row {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #f5f5f5;
+}
+
+.buttonImage {
+    margin-top: 1rem;
+    width: 9rem;
+    padding: 10px 20px;
+    background-color: #635282;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .row img {
+    width: 50%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 1rem;
+  }

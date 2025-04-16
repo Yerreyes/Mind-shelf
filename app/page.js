@@ -1,4 +1,3 @@
-import CardCategorie from "@/components/categories/card-categorie";
 import Form from "@/components/form/form";
 
 

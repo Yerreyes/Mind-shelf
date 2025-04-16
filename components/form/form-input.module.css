@@ -1,29 +1,50 @@
+
 .row {
-    display: flex;
-    gap: 1rem;
-      
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.95rem;
+  color: white; /* texto del label */
 }
 
 .row label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 1rem;
-    font-family: 'Montserrat', sans-serif;
-    text-transform: uppercase;
-    color: #b3aea5;
-    font-weight: bold;
-  }
-  
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #f5f5f5;
+}
+
 .row input,
 .row textarea {
-    display: block;
-    width: 100%;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    border: 1px solid #454952;
-    background: #1c2027;
-    font-size: 1.25rem;
-    font-family: 'Montserrat', sans-serif;
-    color: #ddd6cb;
-  }
-  
+  display: block;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: 1px solid #454952;
+  background: #1c2027;
+  font-size: 1.25rem;
+  font-family: "Montserrat", sans-serif;
+  color: #ddd6cb;
+}
+
+
+
+.row input {
+  width: 90%;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: none;
+  background-color: #f5f5f5;
+  color: #333;
+  font-size: 1rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.row input:focus {
+  outline: none;
+  box-shadow: 0 0 6px #9776cf;
+}

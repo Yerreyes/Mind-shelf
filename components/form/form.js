@@ -7,18 +7,19 @@ import { useActionState } from "react";
 import { formFieldsByCategory } from "@/components/form/form-configuration.js";
 import { startTransition } from "react";
 import SubmitButton from "../buttons/button-submit.jsx";
+import styles from "./form.module.css";
 
-export default function Form({ category, module }) {
+export default function Form({ category, moduleSelected }) {
   const [formState, formAction] = useActionState(
-    module ? editModule : saveFormData,
+    moduleSelected ? editModule : saveFormData,
     { success: false }
   );
 
   const [categorySelected, setCategorySelected] = useState(category || "");
 
-  const [title, setTitle] = useState(module?.title || "");
+  const [title, setTitle] = useState(moduleSelected?.title || "");
 
-  function handleTitleChange(event){
+  function handleTitleChange(event) {
     setTitle(event.target.value);
   }
 
@@ -42,8 +43,8 @@ export default function Form({ category, module }) {
     const formData = new FormData(event.target);
 
     startTransition(() => {
-      if (module) {
-        formAction({ formData, id: module.id }); // Pasar el ID directamente
+      if (moduleSelected) {
+        formAction({ formData, id: moduleSelected.id }); // Pasar el ID directamente
       } else {
         formAction(formData);
       }
@@ -69,8 +70,14 @@ export default function Form({ category, module }) {
         desplegable
       ) : (
         <>
-          <h1> {module ? " Editar" : `Crear un nuevo ${categorySelected}`} </h1>
-          <form onSubmit={handleSubmit}>
+        {desplegable}
+          <h1 className = {styles.title}>
+            {" "}
+            {moduleSelected
+              ? " Editar"
+              : `Crear un nuevo ${categorySelected}`}{" "}
+          </h1>
+          <form className={styles.formContainer} onSubmit={handleSubmit}>
             <input
               id="category"
               type="text"
@@ -80,15 +87,29 @@ export default function Form({ category, module }) {
             ></input>
 
             {arrayInputs.map((item) =>
+              //this validation is to check if the item is title or not because we need to handle it differently for setting the image
+              // if someone edits the title the input detects the change and and sets the title, which is used to generate the image
               item.name == "title" ? (
-                <FormInput key={item.name} module={module} {...item} isTitle = {handleTitleChange} />
+                <FormInput
+                  key={item.name}
+                  module={moduleSelected}
+                  {...item}
+                  handleTitleChange={handleTitleChange}
+                />
               ) : (
-                <FormInput key={item.name} module={module} title = {title} {...item}  />
+                <FormInput
+                  key={item.name}
+                  module={moduleSelected}
+                  title={title}
+                  {...item}
+                />
               )
             )}
+            <div className={styles.buttonContainer}>
+              <SubmitButton isEditing={moduleSelected ? true : false} />
+            </div>
 
-            <SubmitButton isEditing={module ? true : false} />
-            {formState?.message && <p>{formState.message}</p>}
+            {formState?.message && <p className={styles.message}>{formState.message}</p>}
           </form>
         </>
       )}

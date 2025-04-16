@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import styles from "./form-input.module.css";
+import styles from "./image-input.module.css";
 
-export default function ImageInput({ name, label, module, title}) {
-  
+export default function ImageInput({ name, label, module, title }) {
   const [imagePreview, setImagePreview] = useState(
-    module?.fields?.[name] || ""
+    module?.fields?.[name] || null
   );
 
   useEffect(() => {
     const fetchImage = async () => {
       try {
-        const response = await fetch(`/api/generate-image?title=${encodeURIComponent(title)}`);
+        // Fetch the image from the server. The server generates the image based on the title.
+        const response = await fetch(
+          `/api/generate-image?title=${encodeURIComponent(title)}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch image");
         }
@@ -22,7 +24,7 @@ export default function ImageInput({ name, label, module, title}) {
         console.error("Error fetching image:", error);
       }
     };
-    
+
     if (title) {
       fetchImage();
     }
@@ -43,27 +45,36 @@ export default function ImageInput({ name, label, module, title}) {
 
   return (
     <div className={styles.row}>
-      <label htmlFor={name}>{label}</label>
-      {imagePreview ? (
-        <img
-          src={`data:image/png;base64,${imagePreview}`}
-          alt="Preview"
-          width="150"
-        />
+      <label className={styles.title} htmlFor={name}>{label}</label>
+      {imagePreview != null ? (
+        imagePreview != "" ? (
+          <img
+            src={`data:image/png;base64,${imagePreview}`}
+            alt="Preview"
+            width="150"
+          />
+        ) : (
+          <img
+            src={`/api/generate-image?title=${encodeURIComponent(title)}`}
+            alt="Preview"
+            width="150"
+          />
+        )
       ) : (
-        <img
-          src={`/api/generate-image?title=${encodeURIComponent(title)}`}
-          alt="Preview"
-          width="150"
-        />
+        ""
       )}
       <input
         id={name}
         type="file"
         accept="image/*"
         onChange={handleImageChange}
+        name="image"
+        style={{ display: "none" }} // Hide the default file input
       />
-      <input type="hidden" name={name} value={imagePreview} />
+
+      <label className={styles.buttonImage} htmlFor={name}>Subir imagen</label>
+
+      <input type="hidden" name={name} value={imagePreview == null ? "" : imagePreview} />
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import { useFormStatus } from "react-dom";
-
+import styles from "./button-submit.module.css";
 export default function SubmitButton({ isEditing }) {
     const { pending } = useFormStatus();
   return (
-    <button>
+    <button className={styles.submitButton} type="submit" disabled={pending}>
       {pending
         ? isEditing
           ? "Editando..."
